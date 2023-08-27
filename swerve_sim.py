@@ -15,7 +15,12 @@ def optimizer(raw_target_angle: int, raw_curr_angle: int) -> int:
     curr_angle = bound_angle(raw_curr_angle)
 
     delta = target_angle - curr_angle
+    if abs(delta) > 180:
+        # Case: delta(target=179, curr=-179) = -2.
+        delta -= 360 * sign(delta)
+
     if abs(delta) > 90:
+        # Case: delta(target=135, curr=0) = -45.
         delta -= 180 * sign(delta)
 
     target_angle = raw_curr_angle + delta
